@@ -1,5 +1,8 @@
 - why should I put all my requires in yelp_api.rb?
 
+- everything added to gitignore will not be added to repository
+- environment variable, access it anywhere in ruby, lets you go to production easily 
+
 GIT CHEAT SHEET ************************************
 ~/yelp_api // ♥ > git add .
 ~/yelp_api // ♥ > git commit -m "wires up cli class to executable" 

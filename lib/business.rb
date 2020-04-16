@@ -1,4 +1,4 @@
-class Business_getter
+class Business
     attr_accessor :categories, :coordinates, :display_phone, :distance, :id, :alias, :image_url, :is_closed, :location, :name, :phone, :price, :rating, :review_count, :url, :transactions
     @@all = []
 
@@ -23,4 +23,7 @@ class Business_getter
         @@all
     end
 
+    def more_details
+
+    end
 end

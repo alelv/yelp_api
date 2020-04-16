@@ -57,7 +57,7 @@ class CLI
         APIManager.search_businesses(@loc_answer, @query_answer)
         one_line_address = ''
 
-        Business_getter.all.each_with_index do |business, index|
+        Business.all.each_with_index do |business, index|
         puts "\n"
         puts "#{index+1} .......................... "
         puts "Business Name: #{business.name}"

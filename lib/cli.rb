@@ -37,7 +37,6 @@ class CLI
         puts "You have left the program. Goodbye!"
     end
 
-
     def introduction
         puts "\n\n"
         puts "Welcome ClassiFinder!"
@@ -71,9 +70,36 @@ class CLI
         end
     end
 
-    def display_reviews
-        
+    def display_reviews(business)
+        #puts business.name
+        business.reviews.each_with_index do |review, index|
+            puts "#{index+1} .......................... "
+            #puts "Business: #{review.business.name}"
+            puts "Review by: #{review.user["name"]}"
+            puts "Rating: #{review.rating}"
+            puts "Review: #{review.text}"  
+            puts "\n"  
+        end
+    end
+
+    def more_details(business)
+        categories = []
+        business.categories.each { |category_hash| categories << category_hash["title"] } 
+
+        puts "\n\n\n"
+        puts "********** #{business.name.upcase} **********"
+        puts "\n"
+        puts "Rating: #{business.rating} | #{business.review_count} reviews"
+        puts "Categories: " + categories.join(' | ') if categories != nil
+        puts "Price: #{business.price}" if business.price !=nil
+        puts "Phone: #{business.display_phone}" if business.display_phone != nil
+        puts "Address: " + business.location["display_address"].join(", ") if business.location["display_address"] != nil
+        puts "URL: #{business.url}" if business.url != nil
+        puts "\n"
+        puts "********** REVIEWS ***********"
+        puts "\n"
+        display_reviews(business)
+
     end
 end
 
-#get business_reviews for all ? or retrieve for the ones asked?

@@ -42,8 +42,3 @@ end
 
 
 
-# def create_and_add_reviews(review_hash)
-#     review = Review.new(review_hash)
-#     review.business = self
-#     @reviews << review 
-# end

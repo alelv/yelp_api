@@ -3,6 +3,7 @@ class Business
     @@all = []
 
     def initialize(business_hash)
+        @reviews = []
         business_hash.each do |key, value|
             self.send("#{key}=", value)
         end
@@ -23,7 +24,26 @@ class Business
         @@all
     end
 
-    def more_details
+    def add_review(review_instance)
+        if review_instance.business == nil
+            review_instance.business = self
+        end
 
+        if @reviews.include?(review_instance) == false
+            @reviews << review_instance
+        end
+    end
+
+    def reviews
+        @reviews
+        # Reviews.get_reviews_from_business(self)
     end
 end
+
+
+
+# def create_and_add_reviews(review_hash)
+#     review = Review.new(review_hash)
+#     review.business = self
+#     @reviews << review 
+# end

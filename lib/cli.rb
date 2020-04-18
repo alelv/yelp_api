@@ -55,8 +55,7 @@ class CLI
 
     def display_businesses
         APIManager.search_businesses(@loc_answer, @query_answer)
-        one_line_address = ''
-
+        mass_get_reviews(Business.all)
         Business.all.each_with_index do |business, index|
         puts "\n"
         puts "#{index+1} .......................... "
@@ -65,4 +64,16 @@ class CLI
         puts "Address: " + business.location["display_address"].join(", ")
         end
     end
+
+    def mass_get_reviews(business_array)
+        business_array.each do |business|
+            APIManager.search_reviews(business.id)
+        end
+    end
+
+    def display_reviews
+        
+    end
 end
+
+#get business_reviews for all ? or retrieve for the ones asked?

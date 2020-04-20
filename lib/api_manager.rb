@@ -4,13 +4,16 @@ class APIManager
     
     
 
-    def self.search_businesses(loc, query)
-        business_search_url = BASE_URL + "/businesses/search"
+    def self.search_businesses(loc, query, pagenum=1, limit=20)
+        business_search_url = BASE_URL + "/businesses/search" + "?limit=#{limit}&offset=#{(pagenum-1)*limit}"
         headers = {"Authorization": "Bearer #{ENV['API_KEY']}"}
         query = {"location": loc, "term": query}
         res = HTTParty.get(business_search_url, query: query, headers: headers)
         Business.mass_create_from_api(res["businesses"])
-        
+        return {
+            next: res["next"],
+            prev: res["previous"]
+        }
         # first_business_id = res["businesses"][0]["id"]
         # first_business_name = res["businesses"][0]
         # url2 = BASE_URL + "businesses/#{first_business_id}/reviews"
@@ -42,7 +45,7 @@ class APIManager
     end
 
     def self.populate_business_reviews(array)
-
+        
     end
     
    

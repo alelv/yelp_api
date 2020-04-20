@@ -1,8 +1,19 @@
 class CLI
 
+    def initialize
+        @page = 1
+        @limit = 20
+    end
+
     def start
         introduction
         business_loop
+    end
+
+    def get_business_data(loc, query)
+        puts "\n\n MAKING A NETWORK REQUEST ... \n\n"
+        APIManager.search_businesses(loc, query, @page, @limit)
+        #mass_get_reviews(Business.all)
     end
 
     def business_loop
@@ -22,10 +33,41 @@ class CLI
                 @loc_answer = gets.chomp.downcase
                 puts "\n\n"
                     break if @loc_answer.downcase == 'exit'
-               
+                more_options_message
+                get_business_data(@loc_answer, @query_answer)
                 display_businesses
 
+                next_answer = ''
+                while next_answer != 'exit'
+                    next_answer = gets.chomp.downcase
+                
+                    if next_answer == 'main menu'
+                        start
+                    elsif next_answer == 'prev'
+                        if @page <= 1
+                            puts "\n\n You are already on the first page."
+                            more_options_message
+                        else
+                            decrease_page
+                            display_businesses
+                        end
+                    elsif next_answer == 'next'
+                        increase_page
+                        _, stop = get_page_range
+                        if Business.all.length < stop
+                            get_business_data(@loc_answer, @query_answer)
+                        end
+                        display_businesses
+                            
+                    elsif valid?(next_answer)
+                        more_details(Business.all[next_answer.to_i - 1])
+                    else 
+                        puts "Please enter a valid response."
+                    end
+                end
+
                 break
+
             elsif task_answer.to_i == 2
                 puts "show favorites" 
                 break
@@ -37,6 +79,14 @@ class CLI
         puts "You have left the program. Goodbye!"
     end
 
+    def increase_page
+        @page += 1
+    end
+
+    def decrease_page
+        @page -= 1
+    end
+
     def introduction
         puts "\n\n"
         puts "Welcome ClassiFinder!"
@@ -44,18 +94,33 @@ class CLI
         puts "\n\n"
     end
 
-    def menu
-        puts "\n\n\n"
-        puts "..........MENU.........."
-        puts "1. New Yelp search"
-        puts "2. Browse Favorites list"
-        puts "\n\n"
+    def menu          
+        puts <<-MENU
+    
+..........MENU..........
+1. New Yelp search
+2. Browse Favorites list
+
+        MENU
+    end
+
+    def more_options_message
+        puts <<-MORE
+
+            For more information on a business type the number of the business
+            Type 'main menu' clear your search results and go back to the main menu
+            Type 'next' to browse more businesses #{"or 'prev' to see the previous page" if @page > 1}
+            Type 'exit' to exit the program
+
+        MORE
+
     end
 
     def display_businesses
-        APIManager.search_businesses(@loc_answer, @query_answer)
-        mass_get_reviews(Business.all)
-        Business.all.each_with_index do |business, index|
+
+        start, stop = get_page_range
+        puts "\n\nPAGE #{@page}"
+        Business.all[start...stop].each.with_index(start) do |business, index|
         puts "\n"
         puts "#{index+1} .......................... "
         puts "Business Name: #{business.name}"
@@ -64,10 +129,24 @@ class CLI
         end
     end
 
+    def get_page_range
+        [(@page - 1) * @limit, @page * @limit]
+    end
+
+    def valid?(i)
+        i.to_i.between?(1, Business.all.length)
+    end
+
     def mass_get_reviews(business_array)
-        business_array.each do |business|
+        start, stop = get_page_range
+        business_array[start...stop].each do |business|
             APIManager.search_reviews(business.id)
         end
+    end
+
+    def get_reviews(business)    
+        puts "\n\n MAKING A NETWORK REQUEST ... \n\n"
+        APIManager.search_reviews(business.id)     
     end
 
     def display_reviews(business)
@@ -83,6 +162,7 @@ class CLI
     end
 
     def more_details(business)
+        get_reviews(business)
         categories = []
         business.categories.each { |category_hash| categories << category_hash["title"] } 
 
@@ -103,3 +183,15 @@ class CLI
     end
 end
 
+ # def get_business_choice
+    #     commands = ['exit', 'next', 'prev']
+    #     input = gets.strip.downcase
+    #     if commands.include?(input.downcase)
+    #         return input.downcase 
+    #     elsif !valid?(input)
+    #         puts "Enter a valid response"
+    #         return "invalid"
+    #     else
+    #         return input.to_i - 1
+    #     end
+    # end

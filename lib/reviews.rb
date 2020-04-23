@@ -27,7 +27,11 @@ class Reviews
         @@all
     end
 
-    def get_reviews_from_business(business)
+    def self.clear
+        all.clear
+    end
+
+    def self.get_reviews_from_business(business)
         self.all.detect do |i|
             i.business == business
         end

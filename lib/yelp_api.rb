@@ -5,6 +5,7 @@ require_relative "./cli"
 require_relative "./api_manager"
 require_relative "./business"
 require_relative "./reviews"
+require_relative "./messages"
 
 
 ENV["runtime"] ||= "development"

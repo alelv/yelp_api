@@ -24,6 +24,10 @@ class Business
         @@all
     end
 
+    def self.clear
+        all.clear
+    end
+
     def add_review(review_instance)
         if review_instance.business == nil
             review_instance.business = self
@@ -36,7 +40,6 @@ class Business
 
     def reviews
         @reviews
-        # Reviews.get_reviews_from_business(self)
     end
 end
 

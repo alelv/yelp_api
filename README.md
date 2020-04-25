@@ -28,9 +28,9 @@ Or install it yourself as:
 
 ## Usage
 
-Once you acquire your API key, you can make search requests thorugh APIManager.search_businesses and APIManger.search_reviews
+Once you acquire your API key, you can make search requests thorugh ```APIManager.search_businesses``` and ```APIManger.search_reviews```.
 
-To run the program from the command line type ruby bin/console into the command line.
+To run the program from the command line type ```ruby bin/yelp_api``` into the command line and follow the on screen prompts.
 
 
 ## Development

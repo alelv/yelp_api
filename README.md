@@ -1,8 +1,14 @@
 # YelpApi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/yelp_api`. To experiment with that code, run `bin/console` for an interactive prompt.
+YelpAPI is a Ruby Command-Line program that searches Yelp to create a directory of businesses in a given location. The program can get more details, browse reviews, and add to or remove from a 'favorites' list any business that exists in the created directory. 
 
-TODO: Delete this and the text above, and describe your gem
+# Prerequisites
+
+You'll need to get an API key for the Yelp Fusion API to run this program.
+
+Follow the steps in the link below to get started with the Yelp Fusion API.
+https://www.yelp.com/developers/documentation/v3
+
 
 ## Installation
 
@@ -22,7 +28,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Once you acquire your API key, you can make search requests thorugh APIManager.search_businesses and APIManger.search_reviews
+
+To run the program from the command line type ruby bin/console into the command line.
+
 
 ## Development
 
@@ -32,7 +41,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/<github username>/yelp_api.
+Bug reports and pull requests are welcome on GitHub at https://github.com/alelee93/yelp_api.
 
 
 ## License
